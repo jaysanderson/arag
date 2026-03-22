@@ -1,12 +1,12 @@
 ---
 name: train
-description: Train custom classifiers and intent detection models using the NUA API.
+description: Train custom classifiers and intent detection models on your Knowledge Box.
 argument-hint: "<action> [options]"
 ---
 
 # ARAG Train
 
-Train custom machine learning models on your knowledge base content using the Progress NUA (Nuclia Understanding API). Create classifiers, train intent detection, and build custom entity recognition — all from within Claude.
+Train custom machine learning models on your Knowledge Box content. Create classifiers, train intent detection, and build custom entity recognition — all from within Claude.
 
 ## Usage
 
@@ -20,7 +20,7 @@ Train custom machine learning models on your knowledge base content using the Pr
 
 ## Prerequisites
 
-This command uses the NUA API, which is accessed with the same API key (`nua-` key) used for other ARAG operations. No additional configuration is needed beyond the standard `/arag:setup`.
+This command uses the same Knowledge Box API key configured via `/arag:setup`. No additional configuration is needed.
 
 ## Execution Flow
 
@@ -51,7 +51,7 @@ curl -s -X POST \
     "name": "Support Ticket Type",
     "labels": ["bug", "feature", "question", "other"]
   }' \
-  "{nua_endpoint}/classifier"
+  "{endpoint}/classifier"
 ```
 
 **Output:**
@@ -84,7 +84,7 @@ curl -s -X POST \
       {"text": "How do I reset my password?", "label": "question"}
     ]
   }' \
-  "{nua_endpoint}/classifier/train"
+  "{endpoint}/classifier/train"
 ```
 
 **Output:**
@@ -107,7 +107,7 @@ curl -s -X POST \
   -d '{
     "classifier": "Support Ticket Type"
   }' \
-  "{nua_endpoint}/classifier/start"
+  "{endpoint}/classifier/start"
 ```
 
 **Output:**
@@ -129,7 +129,7 @@ Check progress: `/arag:train status "Support Ticket Type"`
 ```bash
 curl -s -X GET \
   -H "Authorization: Bearer {api_key}" \
-  "{nua_endpoint}/classifier/Support%20Ticket%20Type/status"
+  "{endpoint}/classifier/Support%20Ticket%20Type/status"
 ```
 
 **Output:**
@@ -158,7 +158,7 @@ curl -s -X POST \
     "classifier": "Support Ticket Type",
     "text": "I can'\''t log in to my account"
   }' \
-  "{nua_endpoint}/classifier/predict"
+  "{endpoint}/classifier/predict"
 ```
 
 **Output:**
@@ -185,9 +185,9 @@ curl -s -X POST \
 - **409**: "Classifier already exists. Use a different name or delete the existing one."
 - **Insufficient examples**: "Need at least [N] examples per label to start training."
 - **Training failed**: "Training failed. Check your examples for quality and label balance."
-- **Network error**: "Couldn't reach the NUA API. Check your internet connection."
+- **Network error**: "Couldn't reach the API. Check your internet connection."
 
-**Note:** The NUA training API endpoints documented here reflect the expected API surface. Verify exact endpoint paths against the current [Progress NUA documentation](https://docs.rag.progress.cloud/docs/nua-api/) as they may evolve.
+**Note:** The training API endpoints documented here reflect the expected API surface. Verify exact endpoint paths against the current [Progress Agentic RAG documentation](https://docs.rag.progress.cloud) as they may evolve.
 
 ## Example
 
