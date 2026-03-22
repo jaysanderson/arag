@@ -1,0 +1,16 @@
+{
+  "name": "arag",
+  "owner": {
+    "name": "Progress Software"
+  },
+  "metadata": {
+    "description": "Progress Agentic RAG plugin marketplace"
+  },
+  "plugins": [
+    {
+      "name": "arag",
+      "source": "./arag",
+      "description": "The ultimate Agentic RAG plugin for Cowork and Claude Code. Query, manage, analyze, and train your knowledge bases with fully-cited AI answers. Powered by Progress Agentic RAG."
+    }
+  ]
+}
