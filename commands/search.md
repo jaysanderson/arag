@@ -39,19 +39,73 @@ curl -s -X POST \
   "{endpoint}/find"
 ```
 
-**Optional filters:** If the user specifies constraints like "only docs from last month" or "only from contributor X", add a `filter_expression` to the body. Common filters:
+**Optional filters:** If the user specifies constraints like "only docs from last month" or "only from contributor X", add a `filter_expression` to the body.
+
+**Filter examples:**
 
 ```json
+// By date range
 {
   "query": "search terms",
   "filter_expression": {
     "and": [
       {"modified_at": {"gte": "2026-01-01T00:00:00Z"}},
-      {"label": "/classification/topic"}
+      {"modified_at": {"lte": "2026-03-31T23:59:59Z"}}
+    ]
+  }
+}
+
+// By label/classification
+{
+  "query": "search terms",
+  "filter_expression": {
+    "label": "/classification/security"
+  }
+}
+
+// By multiple labels (OR)
+{
+  "query": "search terms",
+  "filter_expression": {
+    "or": [
+      {"label": "/classification/security"},
+      {"label": "/classification/compliance"}
+    ]
+  }
+}
+
+// Combined: recent security docs
+{
+  "query": "encryption",
+  "filter_expression": {
+    "and": [
+      {"modified_at": {"gte": "2026-01-01T00:00:00Z"}},
+      {"label": "/classification/security"}
     ]
   }
 }
 ```
+
+**Natural language to filter mapping:**
+- "from last month" → `{"modified_at": {"gte": "2026-02-01T00:00:00Z"}}`
+- "tagged security" → `{"label": "/classification/security"}`
+- "security or compliance docs from 2026" → combine `"or"` labels inside `"and"` with date
+
+### Alternative: Metadata-only search with catalog
+
+If the user wants to search by resource metadata (title, status, labels) rather than content, use the catalog endpoint:
+
+```bash
+curl -s -X POST \
+  -H "Authorization: Bearer {api_key}" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "query": "API"
+  }' \
+  "{endpoint}/catalog"
+```
+
+This returns resource-level matches without searching paragraph content — useful for finding documents by name or checking what's in the KB.
 
 ### 4. Parse the response
 

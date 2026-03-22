@@ -56,6 +56,44 @@ curl -s -X POST \
 - `query` — the user's question (from `$ARGUMENTS`)
 - `citations` — always `"llm_footnotes"`
 - `context` — array of prior Q&A pairs for multi-turn. Empty for first question.
+- `extra_context_images` (optional) — array of base64-encoded images or image URLs. Use when the user provides a screenshot, diagram, or image to ask about.
+- `filter_expression` (optional) — scope the answer to specific documents. Same syntax as `/arag:search` filters.
+
+**With image context:**
+
+If the user provides an image or references an image file, include it:
+
+```bash
+curl -s -X POST \
+  -H "Authorization: Bearer {api_key}" \
+  -H "Content-Type: application/json" \
+  -H "x-synchronous: true" \
+  -d '{
+    "query": "What does this diagram show according to our docs?",
+    "citations": "llm_footnotes",
+    "context": [],
+    "extra_context_images": ["base64-encoded-image-data-here"]
+  }' \
+  "{endpoint}/ask"
+```
+
+**With filters:**
+
+Scope the answer to specific documents by date, label, or contributor:
+
+```json
+{
+  "query": "the user question here",
+  "citations": "llm_footnotes",
+  "context": [],
+  "filter_expression": {
+    "and": [
+      {"modified_at": {"gte": "2026-01-01T00:00:00Z"}},
+      {"label": "/classification/security"}
+    ]
+  }
+}
+```
 
 ### 4. Parse the response
 
@@ -118,6 +156,15 @@ If the user asks a follow-up question in the same conversation, pass prior excha
 ```
 
 This gives the ARAG model conversational context for better answers.
+
+### 8. Smart suggestions
+
+After presenting the answer, suggest relevant follow-up commands based on the content:
+
+- If the answer cites multiple documents: "Drill into a specific source with `/arag:focus \"[Title]\" [topic]`"
+- If the answer mentions notable people, organizations, or products: "Explore entities with `/arag:entities \"[name]\"`"
+- If the user has multiple KBs configured: "Compare across KBs with `/arag:compare [question]`"
+- If claims lack citations: "Verify with `/arag:search [specific terms]`"
 
 ## Example
 

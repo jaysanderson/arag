@@ -95,6 +95,13 @@ POST to `{endpoint}/ask` with a verification-framed query:
 POST to `{endpoint}/find` with keywords from the claim:
 - Search for "AES-256 encryption" to find direct mentions in source documents.
 
+**Step B2 — Entity corroboration (when applicable)**
+
+If the claim involves a named entity (person, organization, product, regulation), also check the knowledge graph for corroboration:
+- Search for the entity with `POST {endpoint}/find` using the entity name.
+- If the entity exists in the KB with matching relationships or attributes, this strengthens the verification verdict.
+- Example: claim "John Smith leads the API team" → search for "John Smith" → check if KB sources confirm leadership role.
+
 **Step C — Assess the evidence**
 
 Compare the claim against what the API returned:
@@ -188,3 +195,5 @@ For verification specifically:
 - `cited-answers` — for getting answers to questions (not verifying claims)
 - `knowledge-base-search` — for finding source documents directly
 - `research-synthesis` — for deep research on broad topics
+- `kb-management` — for managing the resources used for verification
+- `knowledge-graph` — for entity-based corroboration of claims

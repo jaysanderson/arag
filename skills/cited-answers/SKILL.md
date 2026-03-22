@@ -89,6 +89,13 @@ curl -s -X POST \
 - `citations` (string) — always use `"llm_footnotes"`
 - `context` (array) — prior Q&A pairs for multi-turn, empty for first question
 
+**Optional body fields:**
+- `extra_context_images` (array of strings) — base64-encoded images or image URLs. Include when the user provides a screenshot, diagram, or image to ask about alongside their question. Enables visual Q&A against the KB.
+- `filter_expression` (object) — scope the answer to specific documents by date, label, or contributor. Same syntax as the `/find` endpoint filters:
+  - By date: `{"modified_at": {"gte": "2026-01-01T00:00:00Z"}}`
+  - By label: `{"label": "/classification/security"}`
+  - Combined: `{"and": [{"modified_at": {"gte": "..."}}, {"label": "..."}]}`
+
 **Response fields:**
 - `answer` — generated text with inline Markdown footnotes `[^1]`, `[^2]`, etc.
 - `retrieval_results` — source paragraphs with origin metadata:
@@ -182,3 +189,5 @@ If the answer contains substantive factual claims that do NOT have an associated
 - `knowledge-base-search` — when the user wants raw results, not generated answers
 - `research-synthesis` — when the question is broad and needs decomposition
 - `source-verification` — when the user wants to verify a specific claim
+- `kb-management` — when the user wants to upload, delete, or organize KB content
+- `knowledge-graph` — when the user wants to explore entities and relationships

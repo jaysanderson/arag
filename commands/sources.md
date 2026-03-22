@@ -49,14 +49,14 @@ The API returns paragraphs, not documents. Multiple paragraphs may come from the
 ```
 ## Sources on "[topic]" in [KB Name]
 
-| # | Document | Relevance | Paragraphs |
-|---|----------|-----------|------------|
-| 1 | **[Title]** | ★★★★★ | 5 matches |
-|   | 📄 [URL] | | |
-| 2 | **[Title]** | ★★★★☆ | 3 matches |
-|   | 📄 [URL] | | |
-| 3 | **[Title]** | ★★★☆☆ | 1 match |
-|   | 📄 [URL] | | |
+| # | Document | Relevance | Paragraphs | Resource ID |
+|---|----------|-----------|------------|-------------|
+| 1 | **[Title]** | ★★★★★ | 5 matches | `a1b2...` |
+|   | 📄 [URL] | | | |
+| 2 | **[Title]** | ★★★★☆ | 3 matches | `c3d4...` |
+|   | 📄 [URL] | | | |
+| 3 | **[Title]** | ★★★☆☆ | 1 match | `e5f6...` |
+|   | 📄 [URL] | | | |
 
 ---
 Found [N] documents with [M] matching paragraphs.
@@ -69,9 +69,11 @@ Convert numeric relevance scores to stars (5-star scale) for quick scanning.
 After showing results:
 
 > "Want me to dig into any of these? Try:"
+> - `/arag:focus "[Title]" [query]` — search within a specific document
 > - `/arag:ask [specific question about a document]`
 > - `/arag:search [narrower terms]`
 > - `/arag:research [broader topic]`
+> - `/arag:entities [topic]` — see extracted entities
 
 ### 7. Handle errors
 

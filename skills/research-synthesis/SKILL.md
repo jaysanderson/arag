@@ -95,6 +95,7 @@ For each sub-question:
 - POST to `{endpoint}/ask` with `citations: "llm_footnotes"` and `x-synchronous: true`
 - Collect the `answer`, `retrieval_results`, and `footnote_to_context`
 - Track which sub-question produced which sources
+- Pass accumulated context from earlier sub-questions into later ones via the `context` array, so later sub-questions benefit from earlier findings
 
 If using multiple KBs, run each sub-question against each KB. Label results by KB name.
 
@@ -177,6 +178,12 @@ cares about themes, not about your research methodology.]
 - **Conflicts are valuable.** Don't hide them — they tell the user where to dig deeper.
 - **Gaps are valuable.** They tell the user what's missing from their knowledge base.
 
+## Compare Mode
+
+When the user wants to contrast what different KBs say rather than merge findings, suggest `/arag:compare` for a quick side-by-side comparison. Research synthesis is best for deep analysis; compare is best for surface-level differences.
+
+If the user explicitly wants both depth and comparison, run the full research flow across all KBs and highlight inter-KB conflicts prominently in the Source Conflicts section.
+
 ## Multi-KB Research
 
 When researching across multiple KBs:
@@ -197,3 +204,5 @@ When researching across multiple KBs:
 - `cited-answers` — for single focused questions (not broad research)
 - `knowledge-base-search` — for browsing sources without synthesis
 - `source-verification` — for verifying specific claims against the KB
+- `kb-management` — for managing the resources that research draws from
+- `knowledge-graph` — for exploring entities and relationships across research findings
