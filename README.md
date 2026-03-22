@@ -4,6 +4,16 @@ The ultimate Agentic RAG plugin for Cowork, Anthropic's agentic desktop applicat
 
 ## Installation
 
+### Cowork (Desktop)
+
+1. Open the **Customize** menu in Cowork
+2. Browse plugins and find **ARAG**
+3. Click **Install**
+
+Or upload the plugin ZIP file via Organization Settings → Plugins → Add plugins.
+
+### Claude Code (CLI)
+
 ```
 claude plugins install progress/arag
 ```
