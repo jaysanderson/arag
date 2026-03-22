@@ -43,7 +43,7 @@ This skill reads credentials from `arag/.claude/settings.local.json`:
     {
       "name": "Product Docs",
       "endpoint": "https://europe-1.rag.progress.cloud/api/v1/kb/df8b4c24-...",
-      "api_key": "nua-xxxxxxxxxxxxxxxx",
+      "api_key": "kb-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
       "default": true
     }
   ],
@@ -53,7 +53,7 @@ This skill reads credentials from `arag/.claude/settings.local.json`:
 
 If this file is missing or empty, prompt the user through setup:
 1. Ask for their KB endpoint URL (looks like `https://europe-1.rag.progress.cloud/api/v1/kb/{kb-id}`)
-2. Ask for their API key (starts with `nua-`)
+2. Ask for their Knowledge Box API key (a service access token from their KB settings)
 3. Optionally ask for a friendly name
 4. Save to `arag/.claude/settings.local.json`
 5. Test the connection

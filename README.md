@@ -10,12 +10,12 @@ Think of it as giving Claude access to your internal docs, wikis, policies, and 
 
 ## Prerequisites
 
-Before installing, you need a **Progress Agentic RAG** account with at least one knowledge base. You'll need two things from your ARAG dashboard:
+Before installing, you need a **Progress Agentic RAG** Knowledge Box. You'll need two things from your Knowledge Box dashboard:
 
-1. **Knowledge Base endpoint URL** — looks like `https://europe-1.rag.progress.cloud/api/v1/kb/your-kb-id`
-2. **API key** — a NUA key from your account management page (starts with `nua-`)
+1. **Knowledge Box endpoint URL** — looks like `https://europe-1.rag.progress.cloud/api/v1/kb/your-kb-id`
+2. **Knowledge Box API key** — generated from your Knowledge Box settings (a service access token scoped to your specific KB)
 
-If you don't have an account yet, visit [docs.rag.progress.cloud](https://docs.rag.progress.cloud) to get started.
+If you don't have a Knowledge Box yet, visit [docs.rag.progress.cloud](https://docs.rag.progress.cloud) to get started.
 
 ## Installation
 
@@ -138,7 +138,7 @@ You'll know a skill is active when Claude starts citing your KB documents in its
 | Command | What it does |
 |---------|-------------|
 | `/arag:setup` | Connect to your knowledge base — provide endpoint URL and API key |
-| `/arag:train` | Train custom classifiers and intent detection via NUA API |
+| `/arag:train` | Train custom classifiers and intent detection on your KB |
 
 ### Command examples
 
@@ -209,7 +209,7 @@ Every command and skill works standalone — no MCP connectors or external tools
 | Problem | Solution |
 |---------|----------|
 | "No knowledge base configured" | Run `/arag:setup` to connect your KB |
-| 401 or 403 error | Your API key is invalid or expired — check your NUA key in the ARAG dashboard |
+| 401 or 403 error | Your API key is invalid or expired — generate a new one from your Knowledge Box settings |
 | 404 error | Your endpoint URL is wrong — make sure it contains `/api/v1/kb/` and ends with your KB ID |
 | No results returned | Your KB may be empty or still processing — run `/arag:status` to check |
 | Plugin not showing up in Cowork | Make sure you've installed it (Customize → Browse plugins) and restart Cowork if needed |

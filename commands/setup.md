@@ -1,18 +1,18 @@
 ---
 name: setup
-description: Connect Claude to your Progress Agentic RAG knowledge base. Provide your endpoint URL and API key.
+description: Connect Claude to your Progress Agentic RAG Knowledge Box. Provide your endpoint URL and Knowledge Box API key.
 ---
 
 # ARAG Setup
 
-Connect Claude to your Progress Agentic RAG knowledge base in under a minute.
+Connect Claude to your Progress Agentic RAG Knowledge Box in under a minute.
 
 ## What You Need
 
-Two things:
+Two things from your Knowledge Box dashboard:
 
-1. **Knowledge Base endpoint URL** — from your ARAG dashboard
-2. **API key** — a NUA key from your ARAG account management
+1. **Knowledge Box endpoint URL** — from your KB settings
+2. **Knowledge Box API key** — a service access token generated from your KB settings (scoped to this specific Knowledge Box)
 
 ## Setup Flow
 
@@ -40,15 +40,15 @@ Validate that the URL:
 
 If it doesn't match, ask the user to double-check.
 
-### Step 3: Ask for the API key
+### Step 3: Ask for the Knowledge Box API key
 
 Ask the user:
 
-> "What's your API key?"
+> "What's your Knowledge Box API key?"
 >
-> Go to your ARAG account management, open NUA Keys, create or copy a key. It starts with `nua-`.
+> Go to your Knowledge Box settings, find the API keys section, and create or copy a service access token.
 
-Validate that the key starts with `nua-`. If not, let the user know the expected format.
+Validate that the key is a non-empty string. If it looks like a different credential type (e.g., a JWT or OAuth token), let the user know they need the KB-specific service access token.
 
 ### Step 4: Ask for a friendly name (optional)
 
@@ -84,7 +84,7 @@ Write to `arag/.claude/settings.local.json`:
     {
       "name": "Product Docs",
       "endpoint": "https://europe-1.rag.progress.cloud/api/v1/kb/df8b4c24-2807-4888-ad6c-ae97357a638b",
-      "api_key": "nua-xxxxxxxxxxxxxxxx",
+      "api_key": "kb-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
       "default": true
     }
   ],

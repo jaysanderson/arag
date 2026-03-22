@@ -8,8 +8,8 @@ The ARAG plugin connects directly to Progress Agentic RAG knowledge bases via RE
 
 You only need two things:
 
-1. **Knowledge Base endpoint URL** — from your ARAG dashboard (e.g., `https://europe-1.rag.progress.cloud/api/v1/kb/your-kb-id`)
-2. **API key** — a NUA key from your ARAG account management (starts with `nua-`)
+1. **Knowledge Box endpoint URL** — from your KB settings (e.g., `https://europe-1.rag.progress.cloud/api/v1/kb/your-kb-id`)
+2. **Knowledge Box API key** — a service access token generated from your KB settings (scoped to your specific Knowledge Box)
 
 Run `/arag:setup` to configure.
 
@@ -20,7 +20,7 @@ The plugin supports both reading and writing to your knowledge bases:
 - **Query**: Ask questions, search, browse sources, deep research, entity exploration
 - **Manage**: Upload files/URLs, delete resources, add/remove labels, update metadata
 - **Analyze**: Compare across KBs, verify claims, explore knowledge graphs
-- **Train**: Custom classifiers and intent detection via the NUA API
+- **Train**: Custom classifiers and intent detection on your Knowledge Box
 
 ## Multiple knowledge bases
 
@@ -34,9 +34,9 @@ You can connect as many knowledge bases as you need. Run `/arag:setup` again to 
 
 Use `/arag:compare` to get side-by-side answers from different KBs on the same question.
 
-## NUA API integration
+## Training API
 
-The `/arag:train` command uses the Progress NUA (Nuclia Understanding API) for custom model training. This uses the same `nua-` API key — no additional configuration needed. See [NUA API docs](https://docs.rag.progress.cloud/docs/nua-api/) for details.
+The `/arag:train` command uses the Knowledge Box training endpoints for custom model training. This uses the same KB API key — no additional configuration needed. See [Progress Agentic RAG docs](https://docs.rag.progress.cloud) for details.
 
 ## Learn more
 
