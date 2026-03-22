@@ -28,6 +28,8 @@ Read `arag/.claude/settings.local.json`. If missing, run `/arag:setup` first.
 - If the user says "search everything" or "all KBs", query ALL configured knowledge bases.
 - Otherwise, use the default KB.
 
+If multiple KBs are configured and the topic might benefit from cross-KB analysis, suggest: "You have [N] KBs configured. Want a quick side-by-side comparison first? Try `/arag:compare [topic]`. Otherwise, I'll do deep research on the default KB."
+
 ### 3. Decompose the topic
 
 Break the user's broad topic into 3–5 targeted sub-questions. For example:
@@ -60,6 +62,21 @@ curl -s -X POST \
 ```
 
 If querying multiple KBs, run the same sub-question against each endpoint.
+
+**Conversation context across sub-questions:** When later sub-questions relate to earlier ones, pass the accumulated context from previous answers into the `context` array. This helps the ARAG API provide more focused answers that build on prior findings:
+
+```json
+{
+  "query": "sub-question 3 here",
+  "citations": "llm_footnotes",
+  "context": [
+    {"author": "USER", "text": "sub-question 1"},
+    {"author": "NUCLIA", "text": "answer to sub-question 1"},
+    {"author": "USER", "text": "sub-question 2"},
+    {"author": "NUCLIA", "text": "answer to sub-question 2"}
+  ]
+}
+```
 
 ### 5. Cross-reference and deduplicate
 
@@ -122,3 +139,6 @@ takeaways. Note confidence level based on citation coverage.]
 - Broader topics produce richer briefs. "Data security" is better than "AES-256 key length."
 - Multi-KB research shines when you have separate KBs for different domains (e.g., engineering docs + compliance docs).
 - Follow up with `/arag:ask` to dig deeper into any specific finding.
+- Use `/arag:compare` for a quick side-by-side when comparing across KBs.
+- Use `/arag:focus "[Document]" [topic]` to drill into a specific source.
+- Use `/arag:entities` to explore people, organizations, and other entities mentioned in your research.

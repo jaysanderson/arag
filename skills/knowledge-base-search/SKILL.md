@@ -87,9 +87,27 @@ curl -s -X POST \
 
 Common filter patterns:
 - **By date**: `{"modified_at": {"gte": "2026-01-01T00:00:00Z"}}`
+- **By date range**: `{"and": [{"modified_at": {"gte": "2026-01-01T00:00:00Z"}}, {"modified_at": {"lte": "2026-03-31T23:59:59Z"}}]}`
 - **By label**: `{"label": "/classification/category"}`
+- **By multiple labels (OR)**: `{"or": [{"label": "/classification/security"}, {"label": "/classification/compliance"}]}`
 - **By contributor**: Use metadata filters on contributor fields
 - **Combined**: Wrap multiple conditions in `"and"` or `"or"`
+
+### POST `{endpoint}/catalog` — Metadata search
+
+Search by resource metadata (title, status, labels) rather than content. Useful for resource discovery and health checks.
+
+```bash
+curl -s -X POST \
+  -H "Authorization: Bearer {api_key}" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "query": "API"
+  }' \
+  "{endpoint}/catalog"
+```
+
+Returns resource-level matches without searching paragraph content. Supports `filters` for processing status (`PROCESSED`, `PENDING`, `ERROR`).
 
 ### GET `{endpoint}/search?query=...` — Separate result sets
 
@@ -191,3 +209,5 @@ If results aren't relevant, help the user refine:
 - `cited-answers` — when the user wants a generated answer, not raw sources
 - `research-synthesis` — when exploring a broad topic across multiple sub-questions
 - `source-verification` — when checking if a specific claim exists in the KB
+- `kb-management` — when the user wants to upload, delete, or organize KB content
+- `knowledge-graph` — when the user wants to explore entities and relationships
