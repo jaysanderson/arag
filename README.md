@@ -2,36 +2,115 @@
 
 The ultimate Agentic RAG plugin for Cowork, Anthropic's agentic desktop application — also works in Claude Code. Query, manage, analyze, and train your knowledge bases with fully-cited AI answers where every claim traces back to a source document. Powered by Progress Agentic RAG.
 
+## What is ARAG?
+
+ARAG connects Claude to your company's knowledge bases. Instead of Claude answering from its general training data, it searches **your documents** and gives answers backed by **your sources** — with footnotes linking every claim to the exact document it came from.
+
+Think of it as giving Claude access to your internal docs, wikis, policies, and research — and having it cite its sources every time.
+
+## Prerequisites
+
+Before installing, you need a **Progress Agentic RAG** account with at least one knowledge base. You'll need two things from your ARAG dashboard:
+
+1. **Knowledge Base endpoint URL** — looks like `https://europe-1.rag.progress.cloud/api/v1/kb/your-kb-id`
+2. **API key** — a NUA key from your account management page (starts with `nua-`)
+
+If you don't have an account yet, visit [docs.rag.progress.cloud](https://docs.rag.progress.cloud) to get started.
+
 ## Installation
 
-### Cowork (Desktop)
+### Cowork (Anthropic's Desktop App)
 
-1. Open the **Customize** menu in Cowork
-2. Browse plugins and find **ARAG**
-3. Click **Install**
+Cowork is Anthropic's desktop application for working with Claude. If you're using Cowork, follow these steps:
 
-Or upload the plugin ZIP file via Organization Settings → Plugins → Add plugins.
+**Option A — Install from the plugin browser:**
+
+1. Open Cowork
+2. Click the **Customize** button (bottom-left of the sidebar)
+3. Select **Browse plugins**
+4. Search for **ARAG**
+5. Click **Install**
+
+**Option B — Install from a ZIP file (for custom or private plugins):**
+
+1. Download or export the ARAG plugin as a `.zip` file
+2. In Cowork, go to **Organization Settings** → **Plugins**
+3. Click **Add plugins**
+4. Upload the ZIP file (must be under 50 MB)
+
+**Option C — Connect via GitHub (for automatic updates):**
+
+1. In Cowork, go to **Organization Settings** → **Plugins**
+2. Click **Add plugins** → **Connect GitHub repository**
+3. Point it to the ARAG plugin repository
+
+After installation, you'll see ARAG's commands available when you type `/` in the chat input.
 
 ### Claude Code (CLI)
+
+If you're using Claude Code in your terminal:
 
 ```
 claude plugins install progress/arag
 ```
 
-## Quick start
+## Getting started
 
-1. Install the plugin
-2. Run `/arag:setup` — provide your KB endpoint URL and API key
-3. `/arag:status` — see your KB health at a glance
-4. `/arag:ask "How does document ingestion work?"`
+### Step 1: Connect your knowledge base
 
-That's it. You'll get an AI-generated answer with inline footnote citations, plus a Sources section mapping every footnote to its source document.
+After installing, type this in your Claude conversation:
+
+```
+/arag:setup
+```
+
+Claude will walk you through it interactively — just paste your endpoint URL and API key when prompted. The whole process takes under a minute.
+
+### Step 2: Ask your first question
+
+```
+/arag:ask What is our data retention policy?
+```
+
+You'll get an AI-generated answer with inline footnote citations like `[^1]`, `[^2]`, plus a **Sources** section at the bottom mapping every footnote to the specific document it came from.
+
+### Step 3: Explore further
+
+```
+/arag:search API rate limiting
+/arag:sources deployment guides
+/arag:status
+```
+
+- **`/arag:search`** — Find specific documents in your KB (no AI generation, just ranked results)
+- **`/arag:sources`** — Browse what's in your KB
+- **`/arag:status`** — See a health dashboard of your KB (total resources, processing status, errors)
+
+That's it — you're up and running.
+
+## Using ARAG in Cowork
+
+In Cowork, there are two ways ARAG works:
+
+### Slash commands (you trigger them)
+
+Type `/` in the chat input to see available commands. All ARAG commands start with `/arag:`. Select one or type the full name:
+
+```
+/arag:ask How do webhooks work?
+```
+
+### Skills (Claude triggers them automatically)
+
+Skills work behind the scenes. When you ask Claude a question that relates to your knowledge base, ARAG's skills activate automatically — you don't need to do anything. For example, if you ask Claude to fact-check a claim, the `source-verification` skill kicks in and cross-references your KB sources.
+
+You'll know a skill is active when Claude starts citing your KB documents in its response.
 
 ## Commands
 
 ### Query
 
-| Command | Description |
+| Command | What it does |
 |---------|-------------|
 | `/arag:ask` | Ask a question, get a fully-cited AI answer from your KB |
 | `/arag:search` | Search your KB for source documents — ranked results, no AI generation |
@@ -41,7 +120,7 @@ That's it. You'll get an AI-generated answer with inline footnote citations, plu
 
 ### Manage
 
-| Command | Description |
+| Command | What it does |
 |---------|-------------|
 | `/arag:manage` | Upload, delete, label, and update resources in your KB |
 | `/arag:status` | KB health dashboard — resource counts, processing status, errors |
@@ -49,19 +128,19 @@ That's it. You'll get an AI-generated answer with inline footnote citations, plu
 
 ### Analyze
 
-| Command | Description |
+| Command | What it does |
 |---------|-------------|
 | `/arag:compare` | Compare answers from multiple KBs on the same question |
 | `/arag:entities` | Browse extracted entities — people, organizations, products, and relationships |
 
 ### Configure
 
-| Command | Description |
+| Command | What it does |
 |---------|-------------|
 | `/arag:setup` | Connect to your knowledge base — provide endpoint URL and API key |
 | `/arag:train` | Train custom classifiers and intent detection via NUA API |
 
-### Examples
+### Command examples
 
 ```
 /arag:ask What is our data retention policy?
@@ -79,54 +158,63 @@ That's it. You'll get an AI-generated answer with inline footnote citations, plu
 
 ## Skills
 
-| Skill | Description |
-|-------|-------------|
-| `cited-answers` | Generates AI answers with inline footnote citations — auto-activates for KB Q&A |
-| `knowledge-base-search` | Hybrid semantic + keyword search — auto-activates for source browsing |
-| `research-synthesis` | Decomposes broad topics into sub-questions, cross-references sources — auto-activates for research tasks |
-| `source-verification` | Verifies claims against KB sources (supported / contradicted / not found) — auto-activates for fact-checking |
-| `kb-management` | Resource CRUD, label management, processing monitoring — auto-activates for KB management tasks |
-| `knowledge-graph` | Entity extraction, relationship mapping, entity-based queries — auto-activates for entity exploration |
+Skills activate automatically based on what you're doing — no slash command needed.
 
-Every command and skill works standalone — no MCP connectors needed.
+| Skill | When it activates |
+|-------|-------------------|
+| `cited-answers` | When you ask a knowledge base question — generates answers with footnote citations |
+| `knowledge-base-search` | When you're browsing or looking for sources — hybrid semantic + keyword search |
+| `research-synthesis` | When you ask a broad or complex question — decomposes into sub-questions and cross-references |
+| `source-verification` | When you're fact-checking — verifies claims as supported, contradicted, or not found |
+| `kb-management` | When you're managing KB content — handles uploads, deletions, labels, and monitoring |
+| `knowledge-graph` | When you're exploring entities — extracts people, organizations, products, and relationships |
 
-## Read-Write Operations
+## Read-write operations
 
-The ARAG plugin supports full read-write operations on your knowledge base:
+ARAG isn't just for reading — you can manage your knowledge base directly from Claude:
 
-- **Upload** files, URLs, or text content directly from Claude
+- **Upload** files, URLs, or text content
 - **Delete** outdated or errored resources
 - **Label** and organize resources with classification tags
 - **Bulk ingest** entire directories or URL lists
 - **Monitor** processing status and KB health
 - **Train** custom classifiers on your KB content
 
-## Configuration
+## Multiple knowledge bases
 
-You need two things from your Progress Agentic RAG account:
+You can connect as many KBs as you need. Run `/arag:setup` again to add another. One KB is always marked as the default — used when you don't specify a name.
 
-1. **Knowledge Base endpoint URL** — from your ARAG dashboard (e.g., `https://europe-1.rag.progress.cloud/api/v1/kb/your-kb-id`)
-2. **API key** — a NUA key from account management (starts with `nua-`)
-
-Run `/arag:setup` and Claude walks you through it. Configuration is saved to `arag/.claude/settings.local.json`.
-
-### Multiple knowledge bases
-
-Connect as many KBs as you need. Run `/arag:setup` again to add another. Target any KB by name:
+Target a specific KB by putting its name in brackets:
 
 ```
 /arag:ask [Engineering Wiki] How does the build pipeline work?
+/arag:search [Product Docs] authentication flow
 /arag:research [All KBs] What is our AI strategy?
 ```
 
-One KB is always marked as the default — used when you don't specify a name.
-
 ## How citations work
 
-The plugin uses Progress Agentic RAG's `llm_footnotes` citation mode. Every answer includes inline Markdown footnotes (`[^1]`, `[^2]`) that trace back through the API's `footnote_to_context` mapping to specific source paragraphs. The Sources section at the end of every answer shows document title, URL, and a snippet for each footnote.
+Every answer includes inline Markdown footnotes (`[^1]`, `[^2]`) that link back to specific paragraphs in your source documents. At the end of every answer, a **Sources** section shows the document title, URL, and a relevant snippet for each footnote.
 
-Claims without citations are flagged so you know what's KB-backed and what isn't.
+Claims that can't be backed by a source are flagged, so you always know what's KB-backed and what isn't.
+
+## Configuration details
+
+Configuration is saved to `arag/.claude/settings.local.json` after running `/arag:setup`. This file is local and not committed to version control. API keys are stored in plaintext — secure your machine accordingly.
+
+Every command and skill works standalone — no MCP connectors or external tools are needed.
+
+## Troubleshooting
+
+| Problem | Solution |
+|---------|----------|
+| "No knowledge base configured" | Run `/arag:setup` to connect your KB |
+| 401 or 403 error | Your API key is invalid or expired — check your NUA key in the ARAG dashboard |
+| 404 error | Your endpoint URL is wrong — make sure it contains `/api/v1/kb/` and ends with your KB ID |
+| No results returned | Your KB may be empty or still processing — run `/arag:status` to check |
+| Plugin not showing up in Cowork | Make sure you've installed it (Customize → Browse plugins) and restart Cowork if needed |
 
 ## Learn more
 
-Visit [docs.rag.progress.cloud](https://docs.rag.progress.cloud) for Progress Agentic RAG documentation.
+- [Progress Agentic RAG documentation](https://docs.rag.progress.cloud)
+- [Cowork plugin guide](https://support.claude.com/en/articles/13837440-use-plugins-in-cowork)
