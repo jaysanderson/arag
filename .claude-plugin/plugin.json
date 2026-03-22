@@ -1,0 +1,8 @@
+{
+  "name": "arag",
+  "description": "The ultimate Agentic RAG plugin for Cowork and Claude Code. Query, manage, analyze, and train your knowledge bases with fully-cited AI answers. Powered by Progress Agentic RAG.",
+  "version": "2.0.0",
+  "author": {
+    "name": "Progress Software"
+  }
+}
